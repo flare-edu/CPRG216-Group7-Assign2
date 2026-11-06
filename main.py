@@ -40,3 +40,53 @@ principal_amount = price-down_payment_amount+insurance_cost
 print(f"Down payment amount is ${down_payment_amount}")
 print(f"Mortgage insurance price is ${insurance_cost}")
 print(f"Total mortgage amount is ${principal_amount}")
+
+mortgage_terms = (1, 2, 3, 5, 10)
+mortgage_interest_rates = (0.059, 0.058, 0.055, 0.053, 0.06)
+mortgage_amortizations = (5, 10, 15, 20, 25)
+
+# Get mortgage term
+error = True
+counter = 0
+while error == True:
+    mortgage_term = int(input('Enter mortgage term (1, 2, 3, 5, 10) '))
+    for i in range(0, len(mortgage_terms)):
+        if counter == len(mortgage_terms):
+            print("Invalid Input")
+            counter = 0
+        if mortgage_terms[counter] == mortgage_term:
+            index = counter
+            print(index)
+            error = False
+        counter += 1
+
+# Get amortization period 
+error = True 
+counter = 0
+while error == True:
+    amortization_period = int(input('Enter mortgage amortization period (5, 10, 15, 20, 25) '))
+    for i in range(0, len(mortgage_amortizations)):
+        if counter == len(mortgage_amortizations):
+            print("Invalid Input")
+            counter = 0
+        if mortgage_amortizations[counter] == amortization_period:
+            error = False
+        counter += 1
+
+# Calculate and output interest rate
+interest_rate = mortgage_interest_rates[index]
+print(f'Interest rate for the term will be {(interest_rate * 100)}%')
+
+# Calculate and output effective monlthy interest rate
+amortization = mortgage_interest_rates[index]
+effective_rate = (((1 + (amortization / 2)) ** 2) ** (1 / 12)) - 1
+print(f'EMR: {effective_rate}')
+
+# Calculate and output monthly payment
+monthly_payments = 12 * amortization_period
+print()
+monthly_payment = principal_amount * ((effective_rate * (1 + effective_rate) ** monthly_payments)) / (((1 + effective_rate) ** monthly_payments) - 1)
+print(f'M: {monthly_payment}')
+
+# Part 2 Code
+
