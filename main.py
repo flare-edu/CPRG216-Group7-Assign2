@@ -90,36 +90,41 @@ print(f'M: {monthly_payment}')
 
 # Part 2 Code
 
+
+# Placeholder that toggles chart calculations below, tie this to the Y/N prompt
+output_monthly_chart = True
+
 '''
 TO OUTPUT: you should probably check here if they want to get the schedule
 output so we can skip running all this garbage if they don't want it
 '''
 
-# convenient list for the relevant data needed for every month
-# each entry is a dictionary
-monthly_interest_list = []
+if output_monthly_chart:
+    # convenient list for the relevant data needed for every month
+    # each entry is a dictionary
+    monthly_interest_list = []
 
-# this will be updated every time we loop to track how much is left to pay
-# starts at total mortgage value
-last_closing_balance = principal_amount
-for i in range(1, 12 * mortgage_term):
-    # It's a dictionary, because no objects yet
-    month_entry ={
-        # which month this entry represents
-        "month_no":i,
-        # how much is owed at the start of the month
-        "opening_bal":last_closing_balance,
-        # how much is owed after the month is paid for
-        "closing_bal":0,
-        # total interest needing to be paid this month
-        "interest":0,
-        # total interest paid to AZ specifically
-        "principal":0,
-        # amount needing to be paid
-        "payment":0
-    }
+    # this will be updated every time we loop to track how much is left to pay
+    # starts at total mortgage value
+    last_closing_balance = principal_amount
+    for i in range(1, 12 * mortgage_term):
+        # It's a dictionary, because no objects yet
+        month_entry ={
+            # which month this entry represents
+            "month_no":i,
+            # how much is owed at the start of the month
+            "opening_bal":last_closing_balance,
+            # how much is owed after the month is paid for
+            "closing_bal":0,
+            # total interest needing to be paid this month
+            "interest":0,
+            # total interest paid to AZ specifically
+            "principal":0,
+            # amount needing to be paid
+            "payment":0
+        }
 
-    monthly_interest_list.append(month_entry)
+        monthly_interest_list.append(month_entry)
 
 '''
 Actual output code for schedule can go here, you should be able to iterate 
