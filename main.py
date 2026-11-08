@@ -118,12 +118,19 @@ if output_monthly_chart:
             "closing_bal":0,
             # total interest needing to be paid this month
             "interest":0,
-            # total interest paid to AZ specifically
-            "principal":0,
+            # total payment without interest
+            "principle":0,
             # amount needing to be paid
-            "payment":0
+            "payment": monthly_payment
         }
-
+        # get total interest
+        month_entry["interest"] = month_entry["opening_bal"] * effective_rate
+        # get principle amount
+        month_entry["principle"] = monthly_payment - month_entry["interest"]
+        # set closing bal
+        last_closing_balance = month_entry["opening_bal"] - month_entry["principal"]
+        month_entry["closing_bal"] = last_closing_balance
+        # Append to MLI and move to next month
         monthly_interest_list.append(month_entry)
 
 '''
