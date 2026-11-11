@@ -56,7 +56,7 @@ while error == True:
             counter = 0
         if mortgage_terms[counter] == mortgage_term:
             index = counter
-            # note print(index)
+            # print(index)
             error = False
         counter += 1
 
@@ -80,7 +80,7 @@ print(f'Interest rate for the term will be {(interest_rate * 100)}%')
 # Calculate and output effective monlthy interest rate
 amortization = mortgage_interest_rates[index]
 effective_rate = (((1 + (amortization / 2)) ** 2) ** (1 / 12)) - 1
-# note print(f'EMR: {effective_rate}')
+# print(f'EMR: {effective_rate}')
 
 # Calculate and output monthly payment
 monthly_payments = 12 * amortization_period
@@ -100,6 +100,8 @@ if output_monthly_chart.upper() == 'Y':
     # this will be updated every time we loop to track how much is left to pay
     # starts at total mortgage value
     last_closing_balance = principal_amount
+    total_principal = 0
+    total_interest = 0
     for i in range(0, 12 * mortgage_term):
         # It's a dictionary, because no objects yet
         month_entry ={
@@ -125,9 +127,14 @@ if output_monthly_chart.upper() == 'Y':
         month_entry["closing_bal"] = last_closing_balance
         # Append to MLI and move to next month
         monthly_interest_list.append(month_entry)
+        total_principal += month_entry.get('principle')
+        total_interest += month_entry.get('interest')
 
+    print('                         Monthly Amortization Schedule\n')
     print('Month    Opening Bal        Payment      Principal       Interest    Closing Bal')
     interest_list_iterator = 0
     for i in monthly_interest_list:
         print(f'{monthly_interest_list[interest_list_iterator].get('month_no'):>5} {monthly_interest_list[interest_list_iterator].get('opening_bal'):>14.2f} {monthly_interest_list[interest_list_iterator].get('payment'):>14.2f} {monthly_interest_list[interest_list_iterator].get('principle'):>14.2f} {monthly_interest_list[interest_list_iterator].get('interest'):>14.2f} {monthly_interest_list[interest_list_iterator].get('closing_bal'):>14.2f}')
         interest_list_iterator += 1
+    print('================================================================================')
+    print(f'Total {total_principal:>44.2f} {total_interest:>14.2f}')
