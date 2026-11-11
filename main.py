@@ -1,5 +1,10 @@
 """
-Assignment 2 Group 7
+FILE:				main.py
+AUTHOR(s):			Willian Day, Ben Hunt, Christopher Miller, 
+|                   Hussain Alshawi, Noah Germann
+DATE COMPLETE:		2026-11-11
+DESC:				Calculates all relevant values for mortgages and displays
+|                   results for user
 """
 
 name = input("Enter client name: ")
