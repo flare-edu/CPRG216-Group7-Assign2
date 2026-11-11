@@ -19,7 +19,7 @@ elif price <=900000:
 else:
     minimum_down_payment_percent = 20
 
-down_payment_percent = int(input(f"Enter down payment percentage (minimum {minimum_down_payment_percent}):"))
+down_payment_percent = float(input(f"Enter down payment percentage (minimum {minimum_down_payment_percent}): "))
 
 # determine insurance rate using down payment percent
 if down_payment_percent < 10:
@@ -49,14 +49,14 @@ mortgage_amortizations = (5, 10, 15, 20, 25)
 error = True
 counter = 0
 while error == True:
-    mortgage_term = int(input('Enter mortgage term (1, 2, 3, 5, 10) '))
+    mortgage_term = int(input('Enter mortgage term (1, 2, 3, 5, 10): '))
     for i in range(0, len(mortgage_terms)):
         if counter == len(mortgage_terms):
             print("Invalid Input")
             counter = 0
         if mortgage_terms[counter] == mortgage_term:
             index = counter
-            print(index)
+            # note print(index)
             error = False
         counter += 1
 
@@ -80,26 +80,19 @@ print(f'Interest rate for the term will be {(interest_rate * 100)}%')
 # Calculate and output effective monlthy interest rate
 amortization = mortgage_interest_rates[index]
 effective_rate = (((1 + (amortization / 2)) ** 2) ** (1 / 12)) - 1
-print(f'EMR: {effective_rate}')
+# note print(f'EMR: {effective_rate}')
 
 # Calculate and output monthly payment
 monthly_payments = 12 * amortization_period
 print()
 monthly_payment = principal_amount * ((effective_rate * (1 + effective_rate) ** monthly_payments)) / (((1 + effective_rate) ** monthly_payments) - 1)
-print(f'M: {monthly_payment}')
+print(f'Monthly Payment Amount is: {monthly_payment}')
 
 # Part 2 Code
 
+output_monthly_chart = input('Would you like to see the amortization schedule? (Y/N): ')
 
-# Placeholder that toggles chart calculations below, tie this to the Y/N prompt
-output_monthly_chart = True
-
-'''
-TO OUTPUT: you should probably check here if they want to get the schedule
-output so we can skip running all this garbage if they don't want it
-'''
-
-if output_monthly_chart:
+if output_monthly_chart.upper() == 'Y':
     # convenient list for the relevant data needed for every month
     # each entry is a dictionary
     monthly_interest_list = []
@@ -107,11 +100,11 @@ if output_monthly_chart:
     # this will be updated every time we loop to track how much is left to pay
     # starts at total mortgage value
     last_closing_balance = principal_amount
-    for i in range(1, 12 * mortgage_term):
+    for i in range(0, 12 * mortgage_term):
         # It's a dictionary, because no objects yet
         month_entry ={
             # which month this entry represents
-            "month_no":i,
+            "month_no":i+1,
             # how much is owed at the start of the month
             "opening_bal":last_closing_balance,
             # how much is owed after the month is paid for
@@ -128,14 +121,13 @@ if output_monthly_chart:
         # get principle amount
         month_entry["principle"] = monthly_payment - month_entry["interest"]
         # set closing bal
-        last_closing_balance = month_entry["opening_bal"] - month_entry["principal"]
+        last_closing_balance = month_entry["opening_bal"] - month_entry["principle"]
         month_entry["closing_bal"] = last_closing_balance
         # Append to MLI and move to next month
         monthly_interest_list.append(month_entry)
 
-'''
-Actual output code for schedule can go here, you should be able to iterate 
-through monthly_interest_list to get all the relevant data, each index is a 
-dictionary with all the info you need listed with the keys in month_entry in
-the loop above ^
-'''
+    print('Month    Opening Bal        Payment      Principal       Interest    Closing Bal')
+    interest_list_iterator = 0
+    for i in monthly_interest_list:
+        print(f'{monthly_interest_list[interest_list_iterator].get('month_no'):>5} {monthly_interest_list[interest_list_iterator].get('opening_bal'):>14.2f} {monthly_interest_list[interest_list_iterator].get('payment'):>14.2f} {monthly_interest_list[interest_list_iterator].get('principle'):>14.2f} {monthly_interest_list[interest_list_iterator].get('interest'):>14.2f} {monthly_interest_list[interest_list_iterator].get('closing_bal'):>14.2f}')
+        interest_list_iterator += 1
