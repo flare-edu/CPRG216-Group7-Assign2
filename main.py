@@ -28,12 +28,16 @@ elif down_payment_percent >= 10 < 15:
     insurance_rate = 4
 elif down_payment_percent >= 15 < 20:
     insurance_rate = 3
-else:
+elif down_payment_percent >= 20:
     insurance_rate = 0
 
 # calculate down payment, insurance cost and principle amounts
 down_payment_amount = (price*down_payment_percent)/100
-insurance_cost = (price-down_payment_amount)*insurance_rate/100
+if down_payment_percent >= 20:
+    insurance_cost = 0
+elif down_payment_percent < 20:
+    insurance_cost = (price-down_payment_amount)*insurance_rate/100
+    
 principal_amount = price-down_payment_amount+insurance_cost
 
 # print out the calculated results
