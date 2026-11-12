@@ -20,7 +20,7 @@ elif price <=900000:
     percent_400k = 400000*0.05
     remainder_percent = (price-400000)*0.1
     downpayment = percent_400k+remainder_percent
-    minimum_down_payment_percent = (downpayment/price)*100
+    minimum_down_payment_percent = round((downpayment/price)*100, 3)
 else:
     minimum_down_payment_percent = 20
 
@@ -60,9 +60,9 @@ elif down_payment_percent < 20:
 principal_amount = price-down_payment_amount+insurance_cost
 
 # print out the calculated results
-print(f"Down payment amount is ${down_payment_amount}")
-print(f"Mortgage insurance price is ${insurance_cost}")
-print(f"Total mortgage amount is ${principal_amount}")
+print(f"Down payment amount is ${down_payment_amount:.0f}")
+print(f"Mortgage insurance price is ${insurance_cost:.0f}")
+print(f"Total mortgage amount is ${principal_amount:.0f}")
 
 mortgage_terms = (1, 2, 3, 5, 10)
 mortgage_interest_rates = (0.059, 0.058, 0.055, 0.053, 0.06)
@@ -70,46 +70,63 @@ mortgage_amortizations = (5, 10, 15, 20, 25)
 
 # Get mortgage term
 error = True
-counter = 0
+mortgage_index = 0
 while error == True:
     mortgage_term = int(input('Enter mortgage term (1, 2, 3, 5, 10): '))
-    for i in range(0, len(mortgage_terms)):
-        if counter == len(mortgage_terms):
-            print("Invalid Input")
-            counter = 0
-        if mortgage_terms[counter] == mortgage_term:
-            index = counter
-            # print(index)
+    match mortgage_term:
+        case 1: 
+            mortgage_index = 0
             error = False
-        counter += 1
+        case 2: 
+            mortgage_index = 1
+            error = False
+        case 3: 
+            mortgage_index = 2
+            error = False
+        case 5: 
+            mortgage_index = 3
+            error = False
+        case 10: 
+            mortgage_index = 4
+            error = False
+        case _:
+            print('Please enter a valid choice')
+
 
 # Get amortization period 
-error = True 
-counter = 0
+error = True
 while error == True:
-    amortization_period = int(input('Enter mortgage amortization period (5, 10, 15, 20, 25) '))
-    for i in range(0, len(mortgage_amortizations)):
-        if counter == len(mortgage_amortizations):
-            print("Invalid Input")
-            counter = 0
-        if mortgage_amortizations[counter] == amortization_period:
+    amortization_period = int(input('Enter mortgage amortization period (5, 10, 15, 20, 25): '))
+    match amortization_period:
+        case 5:
             error = False
-        counter += 1
+        case 10:
+            error = False
+        case 15:
+            error = False
+        case 20:
+            error = False
+        case 20:
+            error = False
+        case 25:
+            error = False
+        case _:
+            print('Please enter a valid choice')
+
 
 # Calculate and output interest rate
-interest_rate = mortgage_interest_rates[index]
-print(f'Interest rate for the term will be {(interest_rate * 100)}%')
+interest_rate = mortgage_interest_rates[mortgage_index]
+print(f'Interest rate for the term will be {(interest_rate * 100):.2f}%')
 
 # Calculate and output effective monlthy interest rate
-amortization = mortgage_interest_rates[index]
+amortization = mortgage_interest_rates[mortgage_index]
 effective_rate = (((1 + (amortization / 2)) ** 2) ** (1 / 12)) - 1
 # print(f'EMR: {effective_rate}')
 
 # Calculate and output monthly payment
 monthly_payments = 12 * amortization_period
-print()
 monthly_payment = principal_amount * ((effective_rate * (1 + effective_rate) ** monthly_payments)) / (((1 + effective_rate) ** monthly_payments) - 1)
-print(f'Monthly Payment Amount is: {monthly_payment}')
+print(f'Monthly Payment Amount is: ${monthly_payment:.2f}')
 
 # Part 2 Code
 
@@ -153,6 +170,8 @@ if output_monthly_chart.upper() == 'Y':
         total_principal += month_entry.get('principle')
         total_interest += month_entry.get('interest')
 
+
+    # Outputs the Monthly Amortization Schedule if it was requested
     print('                         Monthly Amortization Schedule\n')
     print('Month    Opening Bal        Payment      Principal       Interest    Closing Bal')
     interest_list_iterator = 0
