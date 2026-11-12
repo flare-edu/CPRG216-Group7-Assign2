@@ -26,10 +26,19 @@ else:
 
 down_payment_percent = 0
 
-while minimum_down_payment_percent > down_payment_percent or down_payment_percent > 100 or down_payment_percent == 0:
-    if down_payment_percent != 0 and (minimum_down_payment_percent > down_payment_percent or down_payment_percent > 100):
+# Here to confirm if we have run through the loop once
+# If we have, the user has provided an invalid percent and must be prompted again with an error
+run_once_check = False
+# Get down payment percent
+# Loop until valid percent is given
+while minimum_down_payment_percent > down_payment_percent or down_payment_percent > 100:
+    # If this isn't the first time looping, tell user to enter a valid percent
+    if run_once_check:
         print("Please enter a value between the minimum and 100")
+    # Get percent from user
     down_payment_percent = float(input(f"Enter down payment percentage (minimum {minimum_down_payment_percent}): "))
+    # Confirm we have run once, in case we have to loop
+    run_once_check = True
 
 # determine insurance rate using down payment percent
 if down_payment_percent < 10:
