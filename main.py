@@ -24,7 +24,12 @@ elif price <=900000:
 else:
     minimum_down_payment_percent = 20
 
-down_payment_percent = float(input(f"Enter down payment percentage (minimum {minimum_down_payment_percent}): "))
+down_payment_percent = 0
+
+while minimum_down_payment_percent > down_payment_percent or down_payment_percent > 100 or down_payment_percent == 0:
+    if down_payment_percent != 0 and (minimum_down_payment_percent > down_payment_percent or down_payment_percent > 100):
+        print("Please enter a value between the minimum and 100")
+    down_payment_percent = float(input(f"Enter down payment percentage (minimum {minimum_down_payment_percent}): "))
 
 # determine insurance rate using down payment percent
 if down_payment_percent < 10:
